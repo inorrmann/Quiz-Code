@@ -1,0 +1,15 @@
+.row {
+    justify-content: center;
+}
+
+.col-lg-4.col-md-4.col-sm-4 {
+    margin: 20px 0;
+}
+
+.col-lg.col-md.col-sm {
+    margin: 20px 0;
+}
+
+#timer {
+    float: right;
+}
