@@ -1,5 +1,6 @@
 .row {
     justify-content: center;
+    margin: 10px;
 }
 
 .col-lg-4.col-md-4.col-sm-4 {
@@ -10,10 +11,23 @@
     margin: 20px 0;
 }
 
+
 #timer {
     float: right;
 }
 
 #timerP {
     float: right;
+}
+
+#option1 {
+    float: right;
+}
+
+.no-display {
+    display: none;
+}
+
+.display {
+    display: block;
 }

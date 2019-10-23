@@ -10,7 +10,7 @@ var questionsJS = [
         answer: "parentheses"
     },
     {
-        title: "Arrays in Javascript can be used to store ____.".
+        title: "Arrays in Javascript can be used to store ____.",
         choices: ["numbers and strings", "other arrays", "booleans", "all of the above"],
         answer: "all of the above"
     },
@@ -33,20 +33,20 @@ var questionsDisney = [
         answer: "Heihei"
     },
     {
-        title: "Who is the only Disney princess who was inspired by an actual person?"
+        title: "Who is the only Disney princess who was inspired by an actual person?",
         choices: ["Snow White", "Pocahontas", "Aurora", "Belle"],
         answer: "Pocahontas"
     },
     {
-        title: "In 1929, Mickey spoke his first words. What were they?"
+        title: "In 1929, Mickey spoke his first words. What were they?",
         choices: ["Oh boy!", "Oh Toodles!", "Hot dogs!", "Howdy!"],
         answer: "Hot dogs!"
-    }
+    },
     {
         title: "Who was the only Disney main character who didn’t talk throughout the entire film?",
         choices: ["Dumbo", "Aurora", "Mowgli", "Snow White"],
         answer: "Dumbo"
-    }
+    },
     {
         title: "In numerous Disney-Pixar films, a yellow ball with one blue stripe and a red star makes an appearance. What is this ball’s name?",
         choices: ["Meeko Ball", "Mushu Ball", "Terk Ball", "Luxo Ball"],
