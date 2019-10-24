@@ -11,7 +11,18 @@
     margin: 20px 0;
 }
 
+button {
+    border-radius: 5px;
+    color: lightgray;
+    background-color: indigo;
+}
 
+#scores {
+    border: none;
+    background-color: white;
+    color: indigo;
+    font-weight: bold;
+}
 #timer {
     float: right;
 }

@@ -1,13 +1,14 @@
 $(document).ready(function () {
 
-    //declare variable for View High Scores (connected to the button)
+    // View High Scores (connected to the button)
     var highScoresEl = $("#scores");
     highScoresEl = 0;
+    // maximum time to take the quiz    
+    var secondsLeft = 75;
 
 
     // ----- TIMER ------
 
-    var secondsLeft = 75;
     //timer needs to be called from a Start Quiz button
     function timer() {
         var timerInt = setInterval(function () {
@@ -16,10 +17,8 @@ $(document).ready(function () {
                 $("#timer").text("0");
                 clearInterval(timerInt);
                 //
-                //
-                // for now this alert is a placeholder for moving on to a new screen 
-                // with the total score and further instructions
-                alert("Time is up!");
+                // record the seconds left after the last question is answered
+                // move on to a new screen with the total score and further instructions
                 //
                 //
             }
@@ -29,6 +28,18 @@ $(document).ready(function () {
         }, 1000);
     }
     // ------ END OF TIMER -----
+
+
+    // ----- CALCULATION OF SCORES -----
+    var currentScore = 0;
+    function scoreCalculation() {
+        // BE CAREFUL IF THIS NEEDS TO LOOK AT WHAT QUESTIONS ARE BEING CLICKED, 
+        // THEN IT MIGHT NEED TO BE NESTED INSIDE takeQuiz FUNCTION
+        // at the end currentScore+=1 per second left
+        //
+        //
+    }
+    // ----- END OF CALCULATION OF SCORES -----
 
 
     // declare & append new variables for quiz buttons
@@ -64,54 +75,96 @@ $(document).ready(function () {
 
     // ----- JAVASCRIPT & SURPRISE BUTTONS -----
 
-    function startSelectedQuiz () {
+    function startSelectedQuiz() {
         timer();
+        // change class to no-display for all objects appearing before the quiz
         $("#title").attr("class", "no-display");
         $("h3").attr("class", "no-display");
         $("#quiz-option1").attr("class", "no-display");
         $("#quiz-option2").attr("class", "no-display");
     }
-
     // on click start quiz 1
     $("#option1").on("click", function () {
         startSelectedQuiz();
-        //
-        //
-        // still need to make the objects from the quiz appear here
-        //
-        //
+        takeQuiz(questionsJS);
     });
-
     // on click start quiz 2
     $("#option2").on("click", function () {
         startSelectedQuiz();
-        //
-        //
-        // still need to make the objects from the quiz appear here
-        //
-        //
+        takeQuiz(questionsDisney);
     });
     // ----- END OF JAVASCRIPT & SURPRISE BUTTONS -----
 
 
 
+    // ----- TAKE THE QUIZ -----
+    function takeQuiz(quiz) {
+        // add class card/card-body/card-title to divs that will hold questions & options
+        $("#card").attr("class", "card");
+        $("#card-body").attr("class", "card-body");
+        // $("#questions").attr("class", "card-title");
+
+        // function will present on the screen one question at a time
+        var i = 0;
+        function quizQuestions() {
+            if (i < quiz.length) {
+                // create element for questions
+                // var question = document.createElement("h2");
+                // question = quiz[i].title;
+                // $("#questions").append(question);
+
+                var question = $("#questions");
+                $(question).text(quiz[i].title);
+
+                // create lists & buttons for options (possible answers)
+                for (var j = 0; j < quiz[i].choices.length; j++) {
+                    $("#(j-1)").remove();
+                    var options = document.createElement("li");
+                    $(options).attr("id", j);
+                    $("#options").append(options);
+                    var option = document.createElement("button");
+                    $(option).attr("id", quiz[i].choices[j])
+                    $(option).text(quiz[i].choices[j]);
+                    $(options).append(option);
+                }
+            }
+            else {
+                alert("no more questions!");
+                //
+                //
+                // go to results page
+                //
+                //
+            }
+        }
+        quizQuestions();
+
+        // click event that will select the correct answer
+        $("#options").on("click", function () {
+            if (event.target.id === quiz[i].answer) {
+                // answer is correct
+                currentScore += 2;
+                var audio = new Audio("assets/ding.mp3");
+                audio.play();
+                i++;
+                quizQuestions();
+            }
+            else {
+                secondsLeft -= 5;
+                var audio = new Audio("assets/buzzer.mp3");
+                audio.play();
+                i++;
+                quizQuestions();
+            }
+        });
+        //at the end of the question/options loop I need to figure out how to clear this output and put a new one
+    }
+    // ----- END OF TAKE THE QUIZ -----
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // don't go passed this line!
+    // ---------- DO NOT WRITE BELOW THIS LINE !!! --------------
 });
+
+
+// next figure out how to clear the screen before posting the next question
