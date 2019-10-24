@@ -164,35 +164,22 @@ $(document).ready(function () {
         // individual results on a timer after each question is answered
         var answer = "";
         function displayResult() {
-            var timeResults = 1;
-            var timerInt = setInterval(function () {
-                if (answer === "correct") {
-                    $("h3").text("");
-                    $("h3").attr("id", "light-italics");
-                    $("h3").attr("class", "display");
-                    $("h3").text("Your answer was correct!");
-                    if (timeResults < 0) {
-                        $("h3").attr("class", "no-display");
-                        clearInterval(timerInt);
-                    }
-                    else {
-                        timeResults--;
-                    }
-                }
-                else if (answer === "incorrect") {
-                    $("h3").text("");
-                    $("h3").attr("id", "light-italics");
-                    $("h3").attr("class", "display");
-                    $("h3").text("Your answer was wrong");
-                    if (timeResults < 0) {
-                        $("h3").attr("class", "no-display");
-                        clearInterval(timerInt);
-                    }
-                    else {
-                        timeResults--;
-                    }
-                }
-            }, 1000);
+            // make message disappear when function is called
+            function hideMessage() {
+                $("h3").attr("class", "no-display");
+            }
+            if (answer === "correct") {
+                $("h3").text("Your answer was correct!");
+                $("h3").attr("id", "light-italics");
+                $("h3").attr("class", "display");
+                setTimeout(hideMessage, 1250);
+            }
+            else if (answer === "incorrect") {
+                $("h3").text("Your answer was wrong");
+                $("h3").attr("id", "light-italics");
+                $("h3").attr("class", "display");
+                setTimeout(hideMessage, 1200);
+            }
         }
 
         // click event that will select the correct answer
@@ -201,8 +188,8 @@ $(document).ready(function () {
                 answer = "correct";
                 currentScore += 2;
                 var audio = new Audio("assets/ding.mp3");
-                audio.play();
                 displayResult();
+                audio.play();
                 i++;
                 $("#options").empty();
                 quizQuestions();
@@ -211,8 +198,8 @@ $(document).ready(function () {
                 answer = "incorrect";
                 secondsLeft -= 5;
                 var audio = new Audio("assets/buzzer.mp3");
-                audio.play();
                 displayResult();
+                audio.play();
                 i++;
                 $("#options").empty();
                 quizQuestions();
