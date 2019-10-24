@@ -9,6 +9,21 @@ $(document).ready(function () {
     var secondsLeft = 75;
 
 
+    // display score
+    function results() {
+
+    }
+
+    //
+    //
+    // reset everything to the beginning
+    function goBack() {
+
+    }
+
+
+
+
     // clear everything from the screen after questions are done
     function clearQuestions() {
         $("#questions").empty();
@@ -26,11 +41,7 @@ $(document).ready(function () {
                 $("#timer").text("0");
                 clearInterval(timerInt);
                 clearQuestions();
-                //
-                // 
-                // move on to results
-                //
-                //
+                results();
             }
             else {
                 secondsLeft--;
@@ -38,9 +49,6 @@ $(document).ready(function () {
         }, 1000);
     }
     // ------ END OF TIMER -----
-
-
-    
 
 
     // declare & append new variables for quiz buttons
@@ -94,7 +102,6 @@ $(document).ready(function () {
     // ----- END OF JAVASCRIPT & SURPRISE BUTTONS -----
 
 
-
     // ----- TAKE THE QUIZ -----
     function takeQuiz(quiz) {
         // add class card/card-body/card-title to divs that will hold questions & options
@@ -119,34 +126,67 @@ $(document).ready(function () {
             }
             else {
                 // add secondsLeft to currentScore
-                currentScore+=secondsLeft;
+                currentScore += secondsLeft;
                 console.log(currentScore);
                 //clear everything from the screen
                 clearQuestions();
-                //
-                //
-                // go to results page
-                //
-                //
+                results();
             }
         }
         quizQuestions();
-        
+
+
+        // 
+        var answer = "";
+        function displayResult() {
+            var timeResults = 1;
+            var timerInt = setInterval(function () {
+                if (answer === "correct") {
+                    $("h3").text("");
+                    $("h3").attr("class", "display");
+                    $("h3").text("Your answer was correct!");
+                    if (timeResults < 0) {
+                        $("h3").attr("class", "no-display");
+                        clearInterval(timerInt);
+                    }
+                    else {
+                        timeResults--;
+                    }
+                }
+                else if (answer === "incorrect"){
+                    $("h3").text("");
+                    $("h3").attr("class", "display");
+                    $("h3").text("Your answer was wrong");
+                    if (timeResults < 0) {
+                        $("h3").attr("class", "no-display");
+                        clearInterval(timerInt);
+                    }
+                    else {
+                        timeResults--;
+                    }
+                }
+            }, 1000);
+        }
+
+
         // click event that will select the correct answer
         $("#options").on("click", function () {
             if (event.target.id === quiz[i].answer) {
-                // answer is correct
+                answer = "correct";
                 currentScore += 2;
                 var audio = new Audio("assets/ding.mp3");
                 audio.play();
+                displayResult();
                 i++;
                 $("#options").empty();
                 quizQuestions();
             }
             else {
+                answer = "incorrect";
                 secondsLeft -= 5;
                 var audio = new Audio("assets/buzzer.mp3");
                 audio.play();
+                displayResult();
                 i++;
                 $("#options").empty();
                 quizQuestions();
