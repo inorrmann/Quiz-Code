@@ -50,6 +50,6 @@ var questionsDisney = [
     {
         title: "In numerous Disney-Pixar films, a yellow ball with one blue stripe and a red star makes an appearance. What is this ball’s name?",
         choices: ["Meeko Ball", "Mushu Ball", "Terk Ball", "Luxo Ball"],
-        answer: "Lyxo Ball"
+        answer: "Luxo Ball"
     }
 ]
