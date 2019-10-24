@@ -35,6 +35,13 @@ button {
     float: right;
 }
 
+#light-italics {
+    font-style: italic;
+    font-weight: lighter;
+}
+h6 {
+    text-align: center;
+}
 .no-display {
     display: none;
 }

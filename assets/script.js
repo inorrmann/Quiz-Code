@@ -8,15 +8,37 @@ $(document).ready(function () {
     // maximum time to take the quiz    
     var secondsLeft = 75;
 
-
-    // display score
+    //
+    //
+    // display current score
     function results() {
+        var allDone = document.createElement("h4");
+        $(allDone).text("All done!");
+        $("#instructions").append(allDone);
+        $(allDone).attr("class", "display");
+        // Your final score is : currentScore
+        // prompt to enter name
+        // Submit button
+        // add the values to the local storage
+
+
 
     }
 
     //
     //
+    // display highescores
+    // organize the values from the local storage so that they're displayed from highest to lowest
+    // button to clear high scores (float right)
+    // button to Go Back
+    // reset all class:display
+    // 
+
+
+    //
+    //
     // reset everything to the beginning
+    // this should probably be called at the end of the results function
     function goBack() {
 
     }
@@ -67,6 +89,8 @@ $(document).ready(function () {
     // ----- START QUIZ BUTTON -----
     // Start Quiz, function will trigger new options    
     $("#start").on("click", function () {
+        // Remaining timer displays
+        $("#timer-text").attr("class", "display");
         // clear timer counter
         $("#timer").text("");
         // make the StartQuiz button disappear
@@ -85,6 +109,7 @@ $(document).ready(function () {
         timer();
         // change class to no-display for all objects appearing before the quiz
         $("#title").attr("class", "no-display");
+        $("h6").attr("class", "no-display");
         $("h3").attr("class", "no-display");
         $("#quiz-option1").attr("class", "no-display");
         $("#quiz-option2").attr("class", "no-display");
@@ -136,13 +161,14 @@ $(document).ready(function () {
         quizQuestions();
 
 
-        // 
+        // individual results on a timer after each question is answered
         var answer = "";
         function displayResult() {
             var timeResults = 1;
             var timerInt = setInterval(function () {
                 if (answer === "correct") {
                     $("h3").text("");
+                    $("h3").attr("id", "light-italics");
                     $("h3").attr("class", "display");
                     $("h3").text("Your answer was correct!");
                     if (timeResults < 0) {
@@ -153,8 +179,9 @@ $(document).ready(function () {
                         timeResults--;
                     }
                 }
-                else if (answer === "incorrect"){
+                else if (answer === "incorrect") {
                     $("h3").text("");
+                    $("h3").attr("id", "light-italics");
                     $("h3").attr("class", "display");
                     $("h3").text("Your answer was wrong");
                     if (timeResults < 0) {
@@ -167,7 +194,6 @@ $(document).ready(function () {
                 }
             }, 1000);
         }
-
 
         // click event that will select the correct answer
         $("#options").on("click", function () {
