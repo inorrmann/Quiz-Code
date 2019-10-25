@@ -14,6 +14,8 @@ $(document).ready(function () {
         $(allDone).text("All done!");
         $("#title-row").append(allDone);
         $(allDone).attr("class", "display");
+        // don't display extra list from last page
+        $("#final-scores").attr("class", "no-display");
         // current score message
         var scoreMessage = document.createElement("h6");
         $(scoreMessage).text("Your final score is " + currentScore + ".");
@@ -23,6 +25,10 @@ $(document).ready(function () {
     }
 
     // ----- SUBMIT AT END OF QUIZ -----
+    // variables that organize array from highest to lowest score
+    var highscoresOrdered = [];
+    var playerNameOrdered = [];
+    // variables that will store scores & name to localStorage
     var highscores;
     var playerName;
     // store name and current score to local storage
@@ -50,8 +56,8 @@ $(document).ready(function () {
             storedScores.push({ score: currentScore });
             storedNames.push({ name: $("#name").val() });
 
-            console.log(storedNames);
-            console.log(storedScores);
+            // console.log(storedNames);
+            // console.log(storedScores);
 
             // transform objects into array
             var highscoresArr = [];
@@ -59,13 +65,9 @@ $(document).ready(function () {
             for (var i = 0; i < storedScores.length; i++) {
                 highscoresArr.push(storedScores[i].score);
                 playerNameArr.push(storedNames[i].name);
-                console.log(highscoresArr.length);
+                // console.log(highscoresArr.length);
             }
-
-            // organize array from highest to lowest score
-            var highscoresOrdered = [];
-            var playerNameOrdered = [];
-
+            // order arrays of scores and names from max to min
             for (var i = 0; i < highscoresArr.length + i; i++) {
                 var max = Math.max(...highscoresArr);
                 // console.log("max number: " + max);
@@ -74,30 +76,52 @@ $(document).ready(function () {
                 n = highscoresArr.indexOf(max);
                 // console.log("index: " + n);
                 highscoresArr.splice(n, 1);
-                console.log(highscoresArr.length);
-                console.log(highscoresArr);
-                console.log("^ leftover array");
-                console.log(highscoresOrdered);
-                console.log("^ ordered array");
+                // console.log(highscoresArr.length);
+                // console.log(highscoresArr);
+                // console.log("^ leftover array");
+                // console.log(highscoresOrdered);
+                // console.log("^ ordered array");
+                playerNameOrdered.push(playerNameArr[n]);
+                // console.log(playerNameOrdered);
             }
-
-            console.log(highscoresOrdered);
-            console.log("^ final ordered array");
-            console.log(highscoresArr); 
 
             localStorage.setItem("highScores", JSON.stringify(storedScores));
             localStorage.setItem("highNames", JSON.stringify(storedNames));
         }
-
-        alert("info submitted");
-
+        submission();
     });
     // ----- END OF SUBMIT AT END OF QUIZ -----
 
-    // test of max
-    var test =[3, 5];
-    var max = Math.max(...test);
 
+    // ----- SUBMISSION -----
+    function submission() {
+        // hide previous content
+        $("#header").attr("class", "no-display");
+        $("#form-results").attr("class", "no-display");
+        $("h6").text("");
+        $("h4").text("");
+        //display ordered list
+        $("#final-scores").attr("class", "display");
+
+
+        var displayScores = document.createElement("h4");
+        $(displayScores).text("Highscores");
+        $("#title-row").append(displayScores);
+
+        // list of high scores
+        for (var i = 0; i < 5; i++) {
+            var topScores = document.createElement("li");
+            $(topScores).text(playerNameOrdered[i] + " - " + highscoresOrdered[i]);
+            $(topScores).removeAttr("class", "no-display");
+            $(topScores).attr("class", "list-group-item");
+            $("#final-scores").append(topScores);
+        }
+
+
+
+
+    }
+    // -----END OF SUBMISSION -----
 
     // localStorage.clear();
     // button to Go Back (botton when onclick empty function, no prevent default, 

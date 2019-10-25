@@ -24,6 +24,7 @@ button, #submit {
     color: indigo;
     font-weight: bold;
 }
+
 #timer {
     float: right;
 }
@@ -51,6 +52,16 @@ h4, h6 {
     display: block;
 }
 
+#final-scores {
+    list-style-type: decimal;
+    border-radius: 0 !important;
+    width: 50%;
+}
 
+.list-group-item {
+    border: none;
+    background-color: rgb(197, 166, 197);
+    margin: 8px;
+}
 /* make responsive by using media query and incorporating icons 
 (trophy for highscores & hourglass (with movement??) for the timer) */

@@ -18,7 +18,8 @@
 
 <body>
     <div class="container">
-        <div class="row">
+        <!-- header row -->
+        <div class="row" id="header">
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <button id="scores">View Highscores</button>
             </div>
@@ -27,20 +28,25 @@
                         id="timer">0</span></p>
             </div>
         </div>
+        <!-- card row | questions and options appear here -->
         <div class="row" id="card">
             <div id="card-body">
                 <h5 id="questions"></h5>
                 <ol id="options"></ol>
             </div>
         </div>
+        <!-- titles & "All done!" & "Highscores"-->
         <div class="row" id="title-row">
             <h1 id="title">Coding Quiz Challenge</h1>
         </div>
+        <!-- instructions & "Your final score is:" & list of scores-->
         <div class="row" id="instructions">
             <h6>Try to answer the following questions within the time limit. Keep in mind that incorrect answers will
                 penalize your time and score by 5 seconds. </h6>
+                <ol class="list-group" id="final-scores"></ol>
         </div>
         <div class="row">
+            <!-- Submission form for name -->
             <form class="no-display" id="form-results">
                 Enter name: <input id="name">
                 <button id="submit">Submit</button>
