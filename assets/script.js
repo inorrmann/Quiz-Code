@@ -24,59 +24,107 @@ $(document).ready(function () {
 
     // ----- SUBMIT AT END OF QUIZ -----
     var highscores;
-    let lastScore = {
-        name: "",
-        score: "",
-    };
+    var playerName;
     // store name and current score to local storage
     $("#submit").on("click", function saveScores() {
         event.preventDefault();
         // retrive name and current score and create an object
-        var Name = $("#name")
-        console.log("Name: " + Name.val());
-        console.log("score: " + currentScore);
-        lastScore = {
-            "name": Name.val(),
-            "score": currentScore,
-        };
-        console.log(lastScore);
+        console.log($("#name").val());
+        playerName = [{ name: $("#name").val() }];
+        console.log(playerName);
+        highscores = [{ score: currentScore }];
+        console.log("currentScore: " + currentScore);
+        console.log(highscores);
         // retrieve stored scores from localStorage
-        var storedScores = localStorage.getItem("highscores");
+        var storedScores = JSON.parse(localStorage.getItem("highScores"));
+        console.log(storedScores);
+        var storedNames = JSON.parse(localStorage.getItem("highNames"));
         // if values previously stored, concatenate new scores
-        if (storedScores != null) {
-            lastScoreStr = JSON.stringify(lastScore);
-            storedScores = storedScores.concat(lastScoreStr);
-
-            console.log(storedScores);
-            console.log("up is storedScores concatenated");
-
-            // organize array from highest to lowest score
-            highscores = "";
-            for (var i = 0; i < storedScores.length; i++) {
-                var max = Math.max(...storedScores.score);
-                n = storedScores.indexOf(max);
-                highscores.push(storedScores[n]);
-                storedScores.splice(n, 1);
-            }
+        if (storedScores == null) {
+            localStorage.setItem("highScores", JSON.stringify(highscores));
+            localStorage.setItem("highNames", JSON.stringify(playerName));
         }
         else {
-            highscores = lastScore;
+            storedScores.push({ score: currentScore });
+            console.log(storedScores);
+            console.log(playerName);
+            storedNames.push({ name: $("#name").val() });
+            console.log(storedNames);
+            localStorage.setItem("highScores", JSON.stringify(storedScores));
+            localStorage.setItem("highNames", JSON.stringify(storedNames));
+
+
+            // // organize array from highest to lowest score
+            // highscores = "";
+            // for (var i = 0; i < storedScores.length; i++) {
+            //     var max = Math.max(...storedScores.score);
+            //     n = storedScores.indexOf(max);
+            //     highscores.push(storedScores[n]);
+            //     storedScores.splice(n, 1);
+            // }
         }
-        localStorage.setItem("highscores", JSON.stringify(highscores));
 
 
-        //
-        //
-        //
-        //
-        //
 
     });
     // ----- END OF SUBMIT AT END OF QUIZ -----
 
+    // localStorage.clear();
+
+
+
+
+
+    // NOT WORKING!!! NEXT TRY TO DO PUSHING LIKE THE PEOPLE EXAMPLE ON THE INDEX TO THE LEFT
+
+
+    // // ----- SUBMIT AT END OF QUIZ -----
+    // var highscores;
+    // // store name and current score to local storage
+    // $("#submit").on("click", function saveScores() {
+    //     event.preventDefault();
+    //     // retrive name and current score and create an object
+    //     var Name = $("#name")
+    //     console.log("Name: " + Name.val());
+    //     console.log("score: " + currentScore);
+    //     let lastScore = [{
+    //         name: Name.val(),
+    //         score: currentScore,
+    //     }];
+    //     console.log(lastScore);
+    //     var storedScores = localStorage.getItem("highscores");
+    //     console.log(storedScores);
+    //     if (storedScores == null) {
+    //         highscores = lastScore;
+    //         localStorage.setItem("highscores", JSON.stringify(highscores));
+    //         var test = JSON.parse(localStorage.getItem("highscores"));
+    //         console.log(test);
+
+    //     }
+    //     else {
+    //         var storedObject = JSON.parse(storedScores);
+    //         highscores = storedObject.push({ name: name, score: currentScore});
+    //         console.log(highscores);
+    //         localStorage.setItem("highscores", JSON.stringify(highscores));
+    //         var test = JSON.parse(localStorage.getItem("highscores"));
+    //         console.log(test);
+    //     }
+
+
+    //     //     // // organize array from highest to lowest score
+    //     //     // highscores = "";
+    //     //     // for (var i = 0; i < storedScores.length; i++) {
+    //     //     //     var max = Math.max(...storedScores.score);
+    //     //     //     n = storedScores.indexOf(max);
+    //     //     //     highscores.push(storedScores[n]);
+    //     //     //     storedScores.splice(n, 1);
+    //     //     // }
+    //     // }
+    // });
+    // // ----- END OF SUBMIT AT END OF QUIZ -----
+
     // button to Go Back (botton when onclick empty function, no prevent default, if it doesn't work, try putting it inside a form)
     // localStorage.clear();
-    // firstTime = true;
 
 
 
