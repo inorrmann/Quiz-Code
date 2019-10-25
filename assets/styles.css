@@ -54,14 +54,15 @@ h4, h6 {
 
 #final-scores {
     list-style-type: decimal;
-    border-radius: 0 !important;
     width: 50%;
+    padding: 0;
 }
 
 .list-group-item {
-    border: none;
-    background-color: rgb(197, 166, 197);
+    background-color: rgb(192, 155, 192);
     margin: 8px;
+    font-size: 110%;
 }
+
 /* make responsive by using media query and incorporating icons 
 (trophy for highscores & hourglass (with movement??) for the timer) */

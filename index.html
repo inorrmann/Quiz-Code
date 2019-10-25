@@ -43,7 +43,7 @@
         <div class="row" id="instructions">
             <h6>Try to answer the following questions within the time limit. Keep in mind that incorrect answers will
                 penalize your time and score by 5 seconds. </h6>
-                <ol class="list-group" id="final-scores"></ol>
+                <ol class="list-group list-group-flush" id="final-scores"></ol>
         </div>
         <div class="row">
             <!-- Submission form for name -->
@@ -51,6 +51,11 @@
                 Enter name: <input id="name">
                 <button id="submit">Submit</button>
             </form>
+            <form class="no-display" id="last-page">
+                    <button id="go-back">Go Back</button>
+                    <button id="clear-scores">Clear Scores</button>
+                </form>
+
             <button id="start">Start Quiz</button>
         </div>
         <div class="row">

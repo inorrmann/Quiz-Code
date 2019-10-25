@@ -82,6 +82,7 @@ $(document).ready(function () {
                 // console.log(highscoresOrdered);
                 // console.log("^ ordered array");
                 playerNameOrdered.push(playerNameArr[n]);
+                playerNameArr.splice(n, 1);
                 // console.log(playerNameOrdered);
             }
 
@@ -93,7 +94,7 @@ $(document).ready(function () {
     // ----- END OF SUBMIT AT END OF QUIZ -----
 
 
-    // ----- SUBMISSION -----
+    // ----- DISPLAY HIGHSCORES PAGE -----
     function submission() {
         // hide previous content
         $("#header").attr("class", "no-display");
@@ -109,43 +110,25 @@ $(document).ready(function () {
         $("#title-row").append(displayScores);
 
         // list of high scores
-        for (var i = 0; i < 5; i++) {
+        if (playerNameOrdered[0] === undefined) {
             var topScores = document.createElement("li");
-            $(topScores).text(playerNameOrdered[i] + " - " + highscoresOrdered[i]);
+            $(topScores).text("1.   " + $("#name").val() + " - " + currentScore);
             $(topScores).removeAttr("class", "no-display");
             $(topScores).attr("class", "list-group-item");
             $("#final-scores").append(topScores);
         }
-
-
-
-
+        else {
+            for (var i = 0; i < playerNameOrdered.length; i++) {
+                var topScores = document.createElement("li");
+                $(topScores).text((i + 1) + ".   " + playerNameOrdered[i] + " - " + highscoresOrdered[i]);
+                $(topScores).removeAttr("class", "no-display");
+                $(topScores).attr("class", "list-group-item");
+                $("#final-scores").append(topScores);
+            }
+        }
+        $("#last-page").removeAttr("class");
     }
     // -----END OF SUBMISSION -----
-
-    // localStorage.clear();
-    // button to Go Back (botton when onclick empty function, no prevent default, 
-    // if it doesn't work, try putting it inside a form)
-
-
-    //
-    //
-    // display highscores
-    // organize the values from the local storage so that they're displayed 
-    // from highest to lowest
-    // button to clear high scores (float right)
-    // 
-
-
-    //
-    //
-    // reset everything to the beginning
-    // this should probably be called at the end of the results function
-    function goBack() {
-
-    }
-
-
 
 
     // clear everything from the screen after questions are done
@@ -156,6 +139,12 @@ $(document).ready(function () {
         // $("#card-body").removeAttr("class");
         $("#timer-text").remove();
     }
+
+    // ----- CLEAR SCORES -----
+    $("#clear-scores").on("click", function () {
+        localStorage.clear();
+    })
+    // ----- END OF CLEAR SCORES -----
 
 
     // ----- TIMER ------
@@ -195,6 +184,8 @@ $(document).ready(function () {
     // ----- START QUIZ BUTTONS -----
     // Start Quiz, function will trigger new options    
     $("#start").on("click", function () {
+        // empty list displayed with highscores 
+        $("#final-scores").empty();
         // Remaining timer displays
         $("#timer-text").attr("class", "display");
         // clear timer counter
@@ -310,10 +301,6 @@ $(document).ready(function () {
         });
     }
     // ----- END OF TAKE THE QUIZ -----
-
-
-
-    // ---------- DO NOT WRITE BELOW THIS LINE !!! --------------
 });
 
 
