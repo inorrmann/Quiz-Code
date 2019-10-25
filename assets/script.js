@@ -28,8 +28,6 @@ $(document).ready(function () {
         name: "",
         score: "",
     };
-    // dummy variable to recognize when localStorage is empty
-    var localStorageEmpty = true;
     // store name and current score to local storage
     $("#submit").on("click", function saveScores() {
         event.preventDefault();
@@ -42,10 +40,16 @@ $(document).ready(function () {
             "score": currentScore,
         };
         console.log(lastScore);
-        // retrieve stored scores from localStorage and push new value
-        if (!localStorageEmpty) {
-            var storedScores = JSON.parse(localStorage.getItem("highscores"));
-            storedScores.push(lastScore);
+        // retrieve stored scores from localStorage
+        var storedScores = localStorage.getItem("highscores");
+        // if values previously stored, concatenate new scores
+        if (storedScores != null) {
+            lastScoreStr = JSON.stringify(lastScore);
+            storedScores = storedScores.concat(lastScoreStr);
+
+            console.log(storedScores);
+            console.log("up is storedScores concatenated");
+
             // organize array from highest to lowest score
             highscores = "";
             for (var i = 0; i < storedScores.length; i++) {
@@ -57,8 +61,6 @@ $(document).ready(function () {
         }
         else {
             highscores = lastScore;
-            localStorageEmpty = false;
-            console.log(highscores);
         }
         localStorage.setItem("highscores", JSON.stringify(highscores));
 
@@ -72,7 +74,7 @@ $(document).ready(function () {
     });
     // ----- END OF SUBMIT AT END OF QUIZ -----
 
-// button to Go Back (botton when onclick empty function, no prevent default, if it doesn't work, try putting it inside a form)
+    // button to Go Back (botton when onclick empty function, no prevent default, if it doesn't work, try putting it inside a form)
     // localStorage.clear();
     // firstTime = true;
 
