@@ -11,10 +11,11 @@
     margin: 20px 0;
 }
 
-button {
+button, #submit {
     border-radius: 5px;
     color: lightgray;
     background-color: indigo;
+    margin: 3px 0;
 }
 
 #scores {
@@ -39,7 +40,7 @@ button {
     font-style: italic;
     font-weight: lighter;
 }
-h6 {
+h4, h6 {
     text-align: center;
 }
 .no-display {
@@ -49,3 +50,7 @@ h6 {
 .display {
     display: block;
 }
+
+
+/* make responsive by using media query and incorporating icons 
+(trophy for highscores & hourglass (with movement??) for the timer) */

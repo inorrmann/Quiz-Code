@@ -1,37 +1,88 @@
 $(document).ready(function () {
 
-    // View Highscores (connected to the button)
-    var highScoresEl = $("#scores");
-    highScoresEl = 0;
     // quiz scores
     var currentScore = 0;
     // maximum time to take the quiz    
     var secondsLeft = 75;
 
-    //
-    //
     // display current score
+    var needToRun = true;
     function results() {
+        needToRun = false;
+        // "All done!" message
         var allDone = document.createElement("h4");
         $(allDone).text("All done!");
-        $("#instructions").append(allDone);
+        $("#title-row").append(allDone);
         $(allDone).attr("class", "display");
-        // Your final score is : currentScore
-        // prompt to enter name
-        // Submit button
-        // add the values to the local storage
-
-
-
+        // current score message
+        var scoreMessage = document.createElement("h6");
+        $(scoreMessage).text("Your final score is " + currentScore + ".");
+        $("#instructions").append(scoreMessage);
+        // form to enter name
+        $("#form-results").attr("class", "display");
     }
 
+    // ----- SUBMIT AT END OF QUIZ -----
+    var highscores;
+    let lastScore = {
+        name: "",
+        score: "",
+    };
+    // dummy variable to recognize when localStorage is empty
+    var localStorageEmpty = true;
+    // store name and current score to local storage
+    $("#submit").on("click", function saveScores() {
+        event.preventDefault();
+        // retrive name and current score and create an object
+        var Name = $("#name")
+        console.log("Name: " + Name.val());
+        console.log("score: " + currentScore);
+        lastScore = {
+            "name": Name.val(),
+            "score": currentScore,
+        };
+        console.log(lastScore);
+        // retrieve stored scores from localStorage and push new value
+        if (!localStorageEmpty) {
+            var storedScores = JSON.parse(localStorage.getItem("highscores"));
+            storedScores.push(lastScore);
+            // organize array from highest to lowest score
+            highscores = "";
+            for (var i = 0; i < storedScores.length; i++) {
+                var max = Math.max(...storedScores.score);
+                n = storedScores.indexOf(max);
+                highscores.push(storedScores[n]);
+                storedScores.splice(n, 1);
+            }
+        }
+        else {
+            highscores = lastScore;
+            localStorageEmpty = false;
+            console.log(highscores);
+        }
+        localStorage.setItem("highscores", JSON.stringify(highscores));
+
+
+        //
+        //
+        //
+        //
+        //
+
+    });
+    // ----- END OF SUBMIT AT END OF QUIZ -----
+
+// button to Go Back (botton when onclick empty function, no prevent default, if it doesn't work, try putting it inside a form)
+    // localStorage.clear();
+    // firstTime = true;
+
+
+
     //
     //
-    // display highescores
+    // display highscores
     // organize the values from the local storage so that they're displayed from highest to lowest
     // button to clear high scores (float right)
-    // button to Go Back
-    // reset all class:display
     // 
 
 
@@ -49,21 +100,26 @@ $(document).ready(function () {
     // clear everything from the screen after questions are done
     function clearQuestions() {
         $("#questions").empty();
+        $("#options").empty();
         $("#card").removeAttr("class");
-        $("#card-body").removeAttr("class");
+        // $("#card-body").removeAttr("class");
         $("#timer-text").remove();
     }
 
+
     // ----- TIMER ------
-    //timer needs to be called from a Start Quiz button
+    // timer is called from a "Start Quiz" button
     function timer() {
         var timerInt = setInterval(function () {
             $("#timer").text(secondsLeft);
             if (secondsLeft < 0) {
                 $("#timer").text("0");
                 clearInterval(timerInt);
+                console.log(currentScore);
                 clearQuestions();
-                results();
+                if (needToRun) {
+                    results();
+                }
             }
             else {
                 secondsLeft--;
@@ -71,7 +127,6 @@ $(document).ready(function () {
         }, 1000);
     }
     // ------ END OF TIMER -----
-
 
     // declare & append new variables for quiz buttons
     var quizOption1 = document.createElement("button");
@@ -86,7 +141,7 @@ $(document).ready(function () {
     $("#quiz-option2").append(quizOption2);
 
 
-    // ----- START QUIZ BUTTON -----
+    // ----- START QUIZ BUTTONS -----
     // Start Quiz, function will trigger new options    
     $("#start").on("click", function () {
         // Remaining timer displays
@@ -101,10 +156,10 @@ $(document).ready(function () {
         $(quizOption1).attr("class", "display");
         $(quizOption2).attr("class", "display");
     });
-    // ----- END OF START QUIZ BUTTON -----
+    // ----- END OF START QUIZ BUTTONS -----
 
 
-    // ----- JAVASCRIPT & SURPRISE BUTTONS -----
+    // ----- JAVASCRIPT & SURPRISE QUIZ BUTTONS -----
     function startSelectedQuiz() {
         timer();
         // change class to no-display for all objects appearing before the quiz
@@ -124,7 +179,7 @@ $(document).ready(function () {
         startSelectedQuiz();
         takeQuiz(questionsDisney);
     });
-    // ----- END OF JAVASCRIPT & SURPRISE BUTTONS -----
+    // ----- END OF JAVASCRIPT & SURPRISE QUIZ BUTTONS -----
 
 
     // ----- TAKE THE QUIZ -----
@@ -150,16 +205,12 @@ $(document).ready(function () {
                 }
             }
             else {
-                // add secondsLeft to currentScore
                 currentScore += secondsLeft;
-                console.log(currentScore);
-                //clear everything from the screen
                 clearQuestions();
                 results();
             }
         }
         quizQuestions();
-
 
         // individual results on a timer after each question is answered
         var answer = "";

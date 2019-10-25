@@ -23,24 +23,28 @@
                 <button id="scores">View Highscores</button>
             </div>
             <div class="col-lg col-md col-sm">
-
-                <p class="no-display" id="timer-text">Remaining time: <span style="margin-left: 10px"></span><span id="timer">0</span></p>
+                <p class="no-display" id="timer-text">Remaining time: <span style="margin-left: 10px"></span><span
+                        id="timer">0</span></p>
             </div>
         </div>
-
-        <div class="row">
-            <h1 id="title">Coding Quiz Challenge</h1>
-            <div id="card">
-                <div id="card-body">
-                    <h5 id="questions"></h5>
-                    <ol id="options"></ol>
-                </div>
+        <div class="row" id="card">
+            <div id="card-body">
+                <h5 id="questions"></h5>
+                <ol id="options"></ol>
             </div>
+        </div>
+        <div class="row" id="title-row">
+            <h1 id="title">Coding Quiz Challenge</h1>
         </div>
         <div class="row" id="instructions">
-            <h6>Try to answer the following questions within the time limit. Keep in mind that incorrect answers will penalize your time and score by 5 seconds. </h6>
+            <h6>Try to answer the following questions within the time limit. Keep in mind that incorrect answers will
+                penalize your time and score by 5 seconds. </h6>
         </div>
         <div class="row">
+            <form class="no-display" id="form-results">
+                Enter name: <input id="name">
+                <button id="submit">Submit</button>
+            </form>
             <button id="start">Start Quiz</button>
         </div>
         <div class="row">
