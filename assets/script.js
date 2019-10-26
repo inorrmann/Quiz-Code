@@ -71,7 +71,6 @@ $(document).ready(function () {
             // store ordered scores and names
             localStorage.setItem("highScoresOrdered", highscoresOrdered);
             localStorage.setItem("highNamesOrdered", playerNameOrdered);
-
         }
         submission();
     });
@@ -97,12 +96,9 @@ $(document).ready(function () {
             $(displayScores).text("Highscores");
             $("#title-row").append(displayScores);
 
-
             // list of high scores
             if (localStorage.getItem("highScoresOrdered") == null) {
                 var singleScore = JSON.parse(localStorage.getItem("highScores"));
-                console.log(singleScore[0].score);
-
                 var singleName = JSON.parse(localStorage.getItem("highNames"));
                 var topScores = document.createElement("li");
                 $(topScores).text("1.   " + singleName[0].name + " - " + singleScore[0].score);
@@ -126,6 +122,7 @@ $(document).ready(function () {
     });
     // ----- END VIEW HIGHSCORES -----
 
+    
     // ----- SUBMISSION ACTION AND MOVE TO HIGHSCORES PAGE -----
     function submission() {
         event.preventDefault();
