@@ -13,7 +13,7 @@ $(document).ready(function () {
         var allDone = document.createElement("h4");
         $(allDone).text("All done!");
         $("#title-row").append(allDone);
-        $(allDone).attr("class", "display");
+        $(allDone).removeAttr("class", "no-display");
         // don't display extra list from last page
         $("#final-scores").attr("class", "no-display");
         // current score message
@@ -21,7 +21,7 @@ $(document).ready(function () {
         $(scoreMessage).text("Your final score is " + currentScore + ".");
         $("#instructions").append(scoreMessage);
         // form to enter name
-        $("#form-results").attr("class", "display");
+        $("#form-results").removeAttr("class", "no-display");
     }
 
     // ----- SUBMIT AT END OF QUIZ -----
@@ -35,19 +35,13 @@ $(document).ready(function () {
     $("#submit").on("click", function saveScores() {
         event.preventDefault();
         // retrive name and current score and create an object
-        console.log($("#name").val());
         playerName = [{ name: $("#name").val() }];
-        console.log(playerName);
         highscores = [{ score: currentScore }];
-        console.log("currentScore: " + currentScore);
-        console.log(highscores);
         // retrieve stored scores from localStorage
         var storedScores = JSON.parse(localStorage.getItem("highScores"));
-        console.log(storedScores);
         var storedNames = JSON.parse(localStorage.getItem("highNames"));
-        console.log(storedScores);
 
-        // if values previously stored, concatenate new scores
+        // if there are values stored in localStorage, concatenate new scores
         if (storedScores == null) {
             localStorage.setItem("highScores", JSON.stringify(highscores));
             localStorage.setItem("highNames", JSON.stringify(playerName));
@@ -55,55 +49,95 @@ $(document).ready(function () {
         else {
             storedScores.push({ score: currentScore });
             storedNames.push({ name: $("#name").val() });
-
-            // console.log(storedNames);
-            // console.log(storedScores);
-
             // transform objects into array
             var highscoresArr = [];
             var playerNameArr = [];
             for (var i = 0; i < storedScores.length; i++) {
                 highscoresArr.push(storedScores[i].score);
                 playerNameArr.push(storedNames[i].name);
-                // console.log(highscoresArr.length);
             }
             // order arrays of scores and names from max to min
             for (var i = 0; i < highscoresArr.length + i; i++) {
                 var max = Math.max(...highscoresArr);
-                // console.log("max number: " + max);
                 highscoresOrdered.push(max);
-                // console.log("ordered var: " + highscoresOrdered);
                 n = highscoresArr.indexOf(max);
-                // console.log("index: " + n);
                 highscoresArr.splice(n, 1);
-                // console.log(highscoresArr.length);
-                // console.log(highscoresArr);
-                // console.log("^ leftover array");
-                // console.log(highscoresOrdered);
-                // console.log("^ ordered array");
                 playerNameOrdered.push(playerNameArr[n]);
                 playerNameArr.splice(n, 1);
-                // console.log(playerNameOrdered);
             }
-
+            // store scores & names in the order they were collected
             localStorage.setItem("highScores", JSON.stringify(storedScores));
             localStorage.setItem("highNames", JSON.stringify(storedNames));
+            // store ordered scores and names
+            localStorage.setItem("highScoresOrdered", highscoresOrdered);
+            localStorage.setItem("highNamesOrdered", playerNameOrdered);
+
         }
         submission();
     });
     // ----- END OF SUBMIT AT END OF QUIZ -----
 
 
-    // ----- DISPLAY HIGHSCORES PAGE -----
+    // ----- VIEW HIGHSCORES -----
+    $("#scores").on("click", function () {
+        if (JSON.parse(localStorage.getItem("highScores")) == null) {
+            alert("Nobody has taken the quiz yet!");
+        }
+        else {
+            $("h1").attr("class", "no-display");
+            $("#start").attr("class", "no-display")
+            $("#header").attr("class", "no-display");
+            $("#form-results").attr("class", "no-display");
+            $("h6").text("");
+            $("h4").text("");
+            //display ordered list
+            $("#final-scores").removeAttr("class", "no-display");
+
+            var displayScores = document.createElement("h4");
+            $(displayScores).text("Highscores");
+            $("#title-row").append(displayScores);
+
+
+            // list of high scores
+            if (localStorage.getItem("highScoresOrdered") == null) {
+                var singleScore = JSON.parse(localStorage.getItem("highScores"));
+                console.log(singleScore[0].score);
+
+                var singleName = JSON.parse(localStorage.getItem("highNames"));
+                var topScores = document.createElement("li");
+                $(topScores).text("1.   " + singleName[0].name + " - " + singleScore[0].score);
+                $(topScores).removeAttr("class", "no-display");
+                $(topScores).attr("class", "list-group-item");
+                $("#final-scores").append(topScores);
+            }
+            else {
+                var scoreOrdered = localStorage.setItem("highScoresOrdered", highscoresOrdered);
+                var nameOrdered = localStorage.setItem("highNamesOrdered", playerNameOrdered);
+                for (var i = 0; i < nameOrdered.length; i++) {
+                    var topScores = document.createElement("li");
+                    $(topScores).text((i + 1) + ".   " + nameOrdered[i] + " - " + scoreOrdered[i]);
+                    $(topScores).removeAttr("class", "no-display");
+                    $(topScores).attr("class", "list-group-item");
+                    $("#final-scores").append(topScores);
+                }
+            }
+            $("#last-page").removeAttr("class");
+        }
+    });
+    // ----- END VIEW HIGHSCORES -----
+
+    // ----- SUBMISSION ACTION AND MOVE TO HIGHSCORES PAGE -----
     function submission() {
+        event.preventDefault();
         // hide previous content
+        $("h1").attr("class", "no-display");
+        $("#start").attr("class", "no-display")
         $("#header").attr("class", "no-display");
         $("#form-results").attr("class", "no-display");
         $("h6").text("");
         $("h4").text("");
         //display ordered list
-        $("#final-scores").attr("class", "display");
-
+        $("#final-scores").removeAttr("class", "no-display");
 
         var displayScores = document.createElement("h4");
         $(displayScores).text("Highscores");
@@ -128,7 +162,7 @@ $(document).ready(function () {
         }
         $("#last-page").removeAttr("class");
     }
-    // -----END OF SUBMISSION -----
+    // -----END OF SUBMISSION ACTION AND MOVE TO HIGHSCORES PAGE -----
 
 
     // clear everything from the screen after questions are done
@@ -139,6 +173,13 @@ $(document).ready(function () {
         // $("#card-body").removeAttr("class");
         $("#timer-text").remove();
     }
+
+
+    // -----GO BACK -----
+    $("#go-back").on("click", function () {
+    })
+    // ----- END OF GO BACK -----
+
 
     // ----- CLEAR SCORES -----
     $("#clear-scores").on("click", function () {
@@ -187,16 +228,17 @@ $(document).ready(function () {
         // empty list displayed with highscores 
         $("#final-scores").empty();
         // Remaining timer displays
-        $("#timer-text").attr("class", "display");
+        $("#timer-text").removeAttr("class", "no-display");
         // clear timer counter
         $("#timer").text("");
-        // make the StartQuiz button disappear
+        // make the StartQuiz & ViewHighscores buttons disappear
         $("#start").attr("class", "no-display");
+        $("#scores").attr("class", "no-display");
         // prompt to select type of quiz
         $("h3").text("Which quiz would you like to take?");
         // set visible attribute for buttons
-        $(quizOption1).attr("class", "display");
-        $(quizOption2).attr("class", "display");
+        $(quizOption1).removeAttr("class", "no-display");
+        $(quizOption2).removeAttr("class", "no-display");
     });
     // ----- END OF START QUIZ BUTTONS -----
 
@@ -265,13 +307,13 @@ $(document).ready(function () {
             if (answer === "correct") {
                 $("h3").text("Your answer was correct!");
                 $("h3").attr("id", "light-italics");
-                $("h3").attr("class", "display");
+                $("h3").removeAttr("class", "no-display");
                 setTimeout(hideMessage, 1250);
             }
             else if (answer === "incorrect") {
                 $("h3").text("Your answer was wrong");
                 $("h3").attr("id", "light-italics");
-                $("h3").attr("class", "display");
+                $("h3").removeAttr("class", "no-display");
                 setTimeout(hideMessage, 1200);
             }
         }
