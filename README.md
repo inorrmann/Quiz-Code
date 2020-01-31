@@ -2,6 +2,8 @@
 
 ![language badge](https://img.shields.io/github/languages/top/inorrmann/Quiz-Code)
 
+Deployed site: https://inorrmann.github.io/Quiz-Code/
+
 ## Ready to take a quiz?
 
 Choose between a javascript or a surprise quiz
