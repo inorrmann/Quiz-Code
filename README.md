@@ -12,6 +12,6 @@ and compare scores with your friends!
 
 ![high-scores-screen](./high-scores.png)
 
-## Technology used
+## Technologies used
 
 HTML - Bootstrap - CSS - Javascript
